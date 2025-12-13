@@ -1,0 +1,45 @@
+name: Issue Telegram Notify
+
+on:
+  issues:
+    types: [opened, reopened, closed]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    environment: public
+    steps:
+      - name: Send Telegram Notification
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_THREAD_ID: ${{ secrets.TELEGRAM_PCU_THREAD_ID }}
+        run: |
+          ACTION="${{ github.event.action }}"
+          case "$ACTION" in
+            opened)   EMOJI="🆕"; STATUS="New Issue" ;;
+            reopened) EMOJI="🔄"; STATUS="Reopened" ;;
+            closed)   EMOJI="✅"; STATUS="Closed" ;;
+          esac
+
+          BODY='${{ github.event.issue.body }}'
+          # 转义 HTML 特殊字符
+          BODY=$(echo "$BODY" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+          # 截取前 500 字符
+          BODY="${BODY:0:500}"
+          [ ${#BODY} -eq 500 ] && BODY="${BODY}..."
+
+          MESSAGE="${EMOJI} <b>${STATUS}</b> #${{ github.event.issue.number }}
+
+          📝 <b>${{ github.event.issue.title }}</b>
+          👤 By: <a href=\"${{ github.event.issue.user.html_url }}\">${{ github.event.issue.user.login }}</a>
+
+          <blockquote>${BODY}</blockquote>
+
+          🔗 <a href=\"${{ github.event.issue.html_url }}\">View Issue</a>"
+
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d message_thread_id="${TELEGRAM_THREAD_ID}" \
+            -d parse_mode="HTML" \
+            -d text="${MESSAGE}"
