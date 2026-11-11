@@ -1,6 +1,6 @@
 # Smart Domain Generator 🚀
 
-[![English](https://img.shields.io/badge/lang-English-blue.svg)](README.md) [![中文](https://img.shields.io/badge/lang-中文-red.svg)](README-zh.md) [![日本語](https://img.shields.io/badge/lang-日本語-green.svg)](README-ja.md)
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](README.md) [![中文](https://img.shields.io/badge/lang-中文-red.svg)](README-zh.md) [![日本語](https://img.shields.io/badge/lang-日本語-green.svg)](README-ja.md) [![X](https://img.shields.io/badge/X-%40suzukaze__haduki-000000?logo=x&logoColor=white)](https://x.com/suzukaze_haduki) [![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/houko)
 
 AI-powered intelligent domain name generation and management platform that helps you find the perfect domain for your projects.
 
